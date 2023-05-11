@@ -1,6 +1,7 @@
 from flask import Flask, request
 app = Flask(__name__)
 
+#GET
 #http://localhost:5000
 @app.route('/')
 def inicio():
@@ -18,3 +19,9 @@ def mostrar_edad(edad):
             return f'Tu edad es: {edad + 5}'
         else:
             return f'Tu edad es: {edad +1}'
+
+#POST
+
+@app.route('/mostrar/<nombre>', methods=['GET','POST'])
+def mostrar_nombre(nombre):
+    return f'Tu nombre es: {nombre}'
