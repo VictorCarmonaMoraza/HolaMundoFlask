@@ -1,5 +1,8 @@
+
+
 from flask import Flask, request, render_template,url_for
 from werkzeug.utils import redirect
+from werkzeug.exceptions import abort
 
 app = Flask(__name__)
 
@@ -40,3 +43,11 @@ def mostrar_nombre(valor_nombre):
 def redireccionar():
     #Redireccionamos a la funcion de mostrar_nombre
     return redirect(url_for('mostrar_nombre', valor_nombre='Victor'))
+
+@app.route('/salir')
+def salir():
+    return abort(404)
+
+@app.errorhandler(404)
+def pagina_no_encontrada(error):
+    return (render_template('error404.html', error=error), 404)
