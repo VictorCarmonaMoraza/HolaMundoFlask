@@ -1,17 +1,20 @@
 
 
-from flask import Flask, request, render_template,url_for,jsonify
+from flask import Flask, request, render_template,url_for,jsonify, session
 from werkzeug.utils import redirect
 from werkzeug.exceptions import abort
 
 app = Flask(__name__)
 
+app.secret_key= 'Mi_llave_secreta'
+
 #GET
 #http://localhost:5000
 @app.route('/')
 def inicio():
-    app.logger.info(f'Entramos al path {request.path}')
-    return '<h1>Hello Mundo desde Flask2!</h1>'
+    if 'username' in session:
+        return 'El usuario ya ha hecho login'
+    return '<h1>No ha hecho login</h1>'
 
 
 @app.route('/saludar/<nombre>')
