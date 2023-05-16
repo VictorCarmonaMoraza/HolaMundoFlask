@@ -1,6 +1,6 @@
 
 
-from flask import Flask, request, render_template,url_for
+from flask import Flask, request, render_template,url_for,jsonify
 from werkzeug.utils import redirect
 from werkzeug.exceptions import abort
 
@@ -51,3 +51,20 @@ def salir():
 @app.errorhandler(404)
 def pagina_no_encontrada(error):
     return (render_template('error404.html', error=error), 404)
+
+#REST Representational state transfer
+#Acepta metodo de tipo GET y de tipo POST
+@app.route('/api/mostrar/<nombre>', methods=['GET','POST'])
+def mostrar_json(nombre):
+    #Agregamos al dicionario el nombre y el tipo de metodo
+    valores ={'nombre':nombre, 'metodo_http':request.method}
+    #Transforma la respuesta en un diccionario de tipo json
+    return jsonify(valores)
+
+#Acepta metodo solo de tipo GET
+@app.route('/api/mostrar1/<nombre>')
+def mostrar_json1(nombre):
+    #Agregamos al dicionario el nombre y el tipo de metodo
+    valores ={'nombre':nombre, 'metodo_http':request.method}
+    #Transforma la respuesta en un diccionario de tipo json
+    return jsonify(valores)
