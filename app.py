@@ -1,5 +1,3 @@
-
-
 from flask import Flask, request, render_template,url_for,jsonify, session
 from werkzeug.utils import redirect
 from werkzeug.exceptions import abort
@@ -13,12 +11,29 @@ app.secret_key= 'Mi_llave_secreta'
 @app.route('/')
 def inicio():
     if 'username' in session:
-        return 'El usuario ya ha hecho login'
+        return f'El usuario ya ha hecho login {session["username"]}'
     return '<h1>No ha hecho login</h1>'
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    if request.method == 'POST':
+        #Recuperamos la informacion
+        #Omitimos validacion de usuario y password
+        usuario = request.form['username']
+        #agregar el usuario a la sesion
+        #opcion 1
+        session['username']=usuario
+        #opcion 2
+        #session['username'] = request.form['username']
+        # hacemos un redireccionamiento a nuestra pagina de inicio
+        return redirect(url_for('inicio'))
     return render_template('login.html')
+
+#Metodo para eliminar el login de la sesion
+@app.route('/logout')
+def logout():
+    session.pop('username')
+    return redirect(url_for('inicio'))
 
 
 @app.route('/saludar/<nombre>')
