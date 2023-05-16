@@ -16,6 +16,10 @@ def inicio():
         return 'El usuario ya ha hecho login'
     return '<h1>No ha hecho login</h1>'
 
+@app.route('/login', methods=['GET','POST'])
+def login():
+    return render_template('login.html')
+
 
 @app.route('/saludar/<nombre>')
 def saludar(nombre):
